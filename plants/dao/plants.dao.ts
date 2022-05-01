@@ -25,6 +25,7 @@ class PlantsDao {
   }
 
   async getPlantById(plantId: string) {
+    log("Plant ID", plantId);
     return this.plants.find((plant: CreatePlantDto) => plant.id === plantId);
   }
 
@@ -64,16 +65,7 @@ class PlantsDao {
   }
 
   async getPlantByName(name: string) {
-    const objIndex = this.plants.findIndex(
-      (obj: { name: string }) => obj.name === name
-    );
-
-    let currentPlant = this.plants[objIndex];
-    if (currentPlant) {
-      return currentPlant;
-    } else {
-      return null;
-    }
+    return this.plants.find((plant: CreatePlantDto) => plant.name === name);
   }
 }
 

@@ -12,12 +12,14 @@ class PlantsCrontroller {
   }
 
   async getPlantById(req: express.Request, res: express.Response) {
-    const plant = await plantsService.readById(req.body.id);
+    log("Plant ID", req.params.plantId);
+    const plant = await plantsService.readById(req.params.id);
     res.status(200).send(plant);
   }
 
   async createPlant(req: express.Request, res: express.Response) {
     const plantId = await plantsService.create(req.body);
+    log("Plant created", plantId);
     res.status(201).send({ id: plantId });
   }
 

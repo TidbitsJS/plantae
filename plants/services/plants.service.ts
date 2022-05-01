@@ -10,7 +10,7 @@ class PlantsService implements CRUD {
   }
 
   async create(resource: CreatePlantDto) {
-    PlantsDao.addPlant(resource);
+    return PlantsDao.addPlant(resource);
   }
 
   async deleteById(id: string) {

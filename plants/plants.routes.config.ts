@@ -1,5 +1,8 @@
 import express from "express";
+
 import { CommonRoutesConfig } from "../common/common.routes.config";
+import PlantsController from "./controllers/plants.controller";
+import PlantsMiddleware from "./middleware/plants.middleware";
 
 export class PlantsRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
@@ -9,37 +12,21 @@ export class PlantsRoutes extends CommonRoutesConfig {
   configureRoutes() {
     this.app
       .route("/plants")
-      .get((req: express.Request, res: express.Response) => {
-        res.status(200).send("GET /plants");
-      })
-      .post((req: express.Request, res: express.Response) => {
-        res.status(200).send("POST /plants");
-      });
+      .get(PlantsController.listPlants)
+      .post(
+        PlantsMiddleware.validateRequirPlantBodyFields,
+        PlantsMiddleware.validateSamePlantDoesntExist,
+        PlantsController.createPlant
+      );
 
+    this.app.param("plantId", PlantsMiddleware.extractPlantId);
     this.app
       .route("/plants/:id")
-      .all(
-        (
-          req: express.Request,
-          res: express.Response,
-          next: express.NextFunction
-        ) => {
-          console.log("running before any request in /plants/:id");
-          next();
-        }
-      )
-      .get((req: express.Request, res: express.Response) => {
-        res.status(200).send(`GET requested for id ${req.params.id}`);
-      })
-      .put((req: express.Request, res: express.Response) => {
-        res.status(200).send(`PUT requested for id ${req.params.id}`);
-      })
-      .patch((req: express.Request, res: express.Response) => {
-        res.status(200).send(`PATCH requested for id ${req.params.id}`);
-      })
-      .delete((req: express.Request, res: express.Response) => {
-        res.status(200).send(`DELETE requested for id ${req.params.id}`);
-      });
+      .all(PlantsMiddleware.validatePlantExist)
+      .get(PlantsController.getPlantById)
+      .put(PlantsMiddleware.validateRequirPlantBodyFields, PlantsController.put)
+      .patch(PlantsController.patch)
+      .delete(PlantsController.deletePlant);
 
     return this.app;
   }
