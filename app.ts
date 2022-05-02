@@ -4,6 +4,7 @@ import * as winston from "winston";
 import * as expressWinston from "express-winston";
 import debug from "debug";
 import cors from "cors";
+import "dotenv/config";
 
 import { CommonRoutesConfig } from "./common/common.routes.config";
 import { PlantsRoutes } from "./plants/plants.routes.config";
