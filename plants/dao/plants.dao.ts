@@ -1,3 +1,4 @@
+import mongooseService from "../../common/services/mongoose.service";
 import shortid from "shortid";
 import debug from "debug";
 
@@ -8,64 +9,66 @@ import { PatchPlantDto } from "../dto/patch.plant.dto";
 const log: debug.IDebugger = debug("app:in-memory-dao");
 
 class PlantsDao {
-  plants: Array<CreatePlantDto> = [];
+  Schema = mongooseService.getMongoose().Schema;
+
+  plantsSchema = new this.Schema(
+    {
+      _id: String,
+      name: String,
+      scientificName: String,
+      family: String,
+      description: String,
+    },
+    { id: false }
+  );
+
+  Plant = mongooseService.getMongoose().model("Plants", this.plantsSchema);
 
   constructor() {
     log("Created new instance of PlantsDao");
   }
 
-  async addPlant(plant: CreatePlantDto) {
-    plant.id = shortid.generate();
-    this.plants.push(plant);
-    return plant.id;
+  async createPlant(plantFields: CreatePlantDto) {
+    const plantId = shortid.generate();
+    const plant = new this.Plant({
+      _id: plantId,
+      ...plantFields,
+    });
+
+    await plant.save();
+    return plantId;
   }
 
-  async getPlants() {
-    return this.plants;
+  async getPlants(limit = 25, page = 0) {
+    return this.Plant.find()
+      .limit(limit)
+      .skip(limit * page)
+      .exec();
   }
 
-  async getPlantById(plantId: string) {
-    log("Plant ID", plantId);
-    return this.plants.find((plant: CreatePlantDto) => plant.id === plantId);
-  }
-
-  async putPlantById(plantId: string, plant: PutPlantDto) {
-    const objIndex = this.plants.findIndex(
-      (obj: { id: string }) => obj.id === plantId
+  async updatePlantById(
+    plantId: string,
+    plantFields: PatchPlantDto | PutPlantDto
+  ) {
+    const existingPlant = await this.Plant.findOneAndUpdate(
+      { _id: plantId },
+      { $set: plantFields },
+      { new: true }
     );
 
-    this.plants.splice(objIndex, 1, plant);
-    return `${plant.id} updated via PUT`;
-  }
-
-  async patchPlantById(plantId: string, plant: PatchPlantDto) {
-    const objIndex = this.plants.findIndex(
-      (obj: { id: string }) => obj.id === plantId
-    );
-    let currentPlant = this.plants[objIndex];
-
-    for (let field of Object.keys(plant)) {
-      if (field in plant) {
-        // @ts-ignore
-        currentPlant[field] = plant[field];
-      }
-    }
-
-    this.plants.splice(objIndex, 1, currentPlant);
-    return `${plant.id} patched via PATCH`;
+    return existingPlant;
   }
 
   async removePlantById(plantId: string) {
-    const objIndex = this.plants.findIndex(
-      (obj: { id: string }) => obj.id === plantId
-    );
-
-    this.plants.splice(objIndex, 1);
-    return `${plantId} removed`;
+    return this.Plant.deleteOne({ _id: plantId }).exec();
   }
 
-  async getPlantByName(name: string) {
-    return this.plants.find((plant: CreatePlantDto) => plant.name === name);
+  async readById(plantId: string) {
+    return this.Plant.findOne({ _id: plantId }).exec();
+  }
+
+  async readByName(plantName: string) {
+    return this.Plant.findOne({ name: plantName }).exec();
   }
 }
 

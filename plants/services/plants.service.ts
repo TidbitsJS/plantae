@@ -6,11 +6,11 @@ import { PatchPlantDto } from "../dto/patch.plant.dto";
 
 class PlantsService implements CRUD {
   async list(limit: number, page: number) {
-    return PlantsDao.getPlants();
+    return PlantsDao.getPlants(limit, page);
   }
 
   async create(resource: CreatePlantDto) {
-    return PlantsDao.addPlant(resource);
+    return PlantsDao.createPlant(resource);
   }
 
   async deleteById(id: string) {
@@ -18,19 +18,19 @@ class PlantsService implements CRUD {
   }
 
   async patchById(id: string, resource: PatchPlantDto): Promise<any> {
-    return PlantsDao.patchPlantById(id, resource);
+    return PlantsDao.updatePlantById(id, resource);
   }
 
   async putById(id: string, resource: PutPlantDto): Promise<any> {
-    return PlantsDao.putPlantById(id, resource);
+    return PlantsDao.updatePlantById(id, resource);
   }
 
   async readById(id: string) {
-    return PlantsDao.getPlantById(id);
+    return PlantsDao.readById(id);
   }
 
   async readByName(name: string) {
-    return PlantsDao.getPlantByName(name);
+    return PlantsDao.readByName(name);
   }
 }
 
