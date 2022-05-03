@@ -1,6 +1,12 @@
-# TypeScript Plantas API
+# Plants API
 
 A REST API created using Node.js & TypeScript. It does all CRUD operations to manage a plant database. The primary purpose of the project is to get familiarized with developing the backend with TypeScript.
+
+A specific plant has following properties:
+* Name
+* Scientific Name
+* Family
+* Description
 
 #
 
