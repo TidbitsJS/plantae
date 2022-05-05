@@ -35,7 +35,7 @@ After you've made sure to have the correct things installed, you should be able 
 1. Clone the repo
 
 ```shell
-  git clone https://github.com/TidbitsJS/Ts-RestAPI.git
+  git clone https://github.com/TidbitsJS/plantae.git
   cd Ts-RestAPI
 ```
 
