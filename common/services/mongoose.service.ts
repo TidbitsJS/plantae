@@ -37,4 +37,5 @@ class MongooseService {
       });
   };
 }
+
 export default new MongooseService();

@@ -6,7 +6,7 @@ import { CreatePlantDto } from "../dto/create.plant.dto";
 import { PutPlantDto } from "../dto/put.plant.dto";
 import { PatchPlantDto } from "../dto/patch.plant.dto";
 
-const log: debug.IDebugger = debug("app:in-memory-dao");
+const log: debug.IDebugger = debug("app:in-memory-dao:plant");
 
 class PlantsDao {
   Schema = mongooseService.getMongoose().Schema;
