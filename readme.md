@@ -1,6 +1,12 @@
-# TypeScript Plantas API
+# Plants API
 
 A REST API created using Node.js & TypeScript. It does all CRUD operations to manage a plant database. The primary purpose of the project is to get familiarized with developing the backend with TypeScript.
+
+A specific plant has following properties:
+* Name
+* Scientific Name
+* Family
+* Description
 
 #
 
@@ -29,8 +35,8 @@ After you've made sure to have the correct things installed, you should be able 
 1. Clone the repo
 
 ```shell
-  git clone https://github.com/TidbitsJS/Ts-RestAPI.git
-  cd Ts-RestAPI
+  git clone https://github.com/TidbitsJS/plantae.git
+  cd plantae
 ```
 
 2. Install node modules
