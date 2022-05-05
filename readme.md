@@ -36,7 +36,7 @@ After you've made sure to have the correct things installed, you should be able 
 
 ```shell
   git clone https://github.com/TidbitsJS/plantae.git
-  cd Ts-RestAPI
+  cd plantae
 ```
 
 2. Install node modules
