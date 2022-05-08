@@ -3,7 +3,7 @@ import debug from "debug";
 
 import plantsService from "../services/plants.service";
 
-const log: debug.IDebugger = debug("app:plants-crontroller");
+const log: debug.IDebugger = debug("app:plants-controller");
 
 class PlantsCrontroller {
   async listPlants(req: express.Request, res: express.Response) {
