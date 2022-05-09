@@ -8,6 +8,7 @@ import "dotenv/config";
 
 import { CommonRoutesConfig } from "./common/common.routes.config";
 import { PlantsRoutes } from "./plants/plants.routes.config";
+import { UsersRoutes } from "./users/users.routes.config";
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
@@ -33,6 +34,7 @@ if (!process.env.DEBUG) {
 
 app.use(expressWinston.logger(loggerOptions));
 
+routes.push(new UsersRoutes(app));
 routes.push(new PlantsRoutes(app));
 
 const runningMessage = `Server running at http://localhost:${port}`;
