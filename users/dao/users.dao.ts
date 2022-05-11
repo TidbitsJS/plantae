@@ -34,6 +34,7 @@ class UserDao {
     const user = new this.User({
       _id: userId,
       ...userFields,
+      plants: [],
     });
 
     await user.save();
@@ -51,6 +52,16 @@ class UserDao {
     const existingUser = await this.User.findOneAndUpdate(
       { _id: userId },
       { $set: userFields },
+      { new: true }
+    );
+
+    return existingUser;
+  }
+
+  async addPlantToUser(userId: string, plantId: string) {
+    const existingUser = await this.User.findOneAndUpdate(
+      { _id: userId },
+      { $push: { plants: plantId } },
       { new: true }
     );
 

@@ -16,6 +16,7 @@ export class PlantsRoutes extends CommonRoutesConfig {
       .post(
         PlantsMiddleware.validateRequirPlantBodyFields,
         PlantsMiddleware.validateSamePlantDoesntExist,
+        PlantsMiddleware.validateUserExist,
         PlantsController.createPlant
       );
 

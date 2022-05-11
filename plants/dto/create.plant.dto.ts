@@ -4,4 +4,5 @@ export interface CreatePlantDto {
   scientificName?: string;
   family?: string;
   description: string;
+  userId: string;
 }

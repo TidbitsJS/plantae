@@ -5,6 +5,7 @@ import debug from "debug";
 import { CreatePlantDto } from "../dto/create.plant.dto";
 import { PutPlantDto } from "../dto/put.plant.dto";
 import { PatchPlantDto } from "../dto/patch.plant.dto";
+import usersDao from "../../users/dao/users.dao";
 
 const log: debug.IDebugger = debug("app:in-memory-dao:plant");
 
@@ -18,6 +19,7 @@ class PlantsDao {
       scientificName: String,
       family: String,
       description: String,
+      userId: String,
     },
     { id: false }
   );
@@ -36,6 +38,10 @@ class PlantsDao {
     });
 
     await plant.save();
+
+    // Add plant to user's plants
+    await usersDao.addPlantToUser(plantFields.userId, plantId);
+
     return plantId;
   }
 
