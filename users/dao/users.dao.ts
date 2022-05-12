@@ -6,6 +6,8 @@ import { CreateUserDto } from "../dto/create.user.dto";
 import { PutUserDto } from "../dto/put.user.dto";
 import { PatchUserDto } from "../dto/patch.user.dto";
 
+import plantsDao from "../../plants/dao/plants.dao";
+
 const log: debug.IDebugger = debug("app:in-memory-dao:user");
 
 class UserDao {
@@ -78,6 +80,20 @@ class UserDao {
 
   async readByEmail(email: string) {
     return this.User.findOne({ email: email }).exec();
+  }
+
+  async getAllPlantsForUser(userId: string) {
+    // select only the plants that are owned by the user
+    const plantsArray = await this.User.findOne({ _id: userId }, { plants: 1 });
+
+    // get plant details for each plant id
+    const plants = await Promise.all(
+      plantsArray.plants.map(async (plantId: string) => {
+        return await plantsDao.readById(plantId);
+      })
+    );
+
+    return plants;
   }
 }
 

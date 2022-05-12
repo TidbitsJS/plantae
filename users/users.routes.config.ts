@@ -28,6 +28,11 @@ export class UsersRoutes extends CommonRoutesConfig {
       .patch(UsersController.patch)
       .delete(UsersController.deleteUser);
 
+    this.app
+      .route("/user/plants/:id")
+      .all(UsersMiddleware.validateUserExist)
+      .get(UsersController.getAllPlantsForUser);
+
     return this.app;
   }
 }

@@ -42,6 +42,14 @@ class UsersController {
     log(await usersService.deleteById(req.body.id));
     res.status(204).send();
   }
+
+  async getAllPlantsForUser(req: express.Request, res: express.Response) {
+    const allPlants = await usersService.getAllPlantsForUser(req.params.id);
+
+    log("AllPlants", allPlants);
+
+    res.status(200).send(JSON.stringify(allPlants));
+  }
 }
 
 export default new UsersController();
