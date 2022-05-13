@@ -7,6 +7,15 @@ A specific plant has following properties:
 * Scientific Name
 * Family
 * Description
+* userId
+
+A specific user has following properties:
+* Name
+* Username
+* Email
+* Password
+* Plants ( Created )
+
 
 #
 
